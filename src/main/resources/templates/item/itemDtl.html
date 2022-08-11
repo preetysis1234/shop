@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+</head>
+
+
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        $(document).ready(function(){   /*시작되자마자 불러서 한번 확인한다.*/
+            calculateTotalPrice();
+
+            $("#count").change(function(){  //count값이 변화가 생기면 calculateTotalPrice실행
+                calculateTotalPrice();
+            });
+        });
+
+        function calculateTotalPrice(){
+            var count = $("#count").val();
+            var price = $("#price").val();
+            var totalPrice = price * count;
+            $("#totalPrice").html(totalPrice + '원');
+        }
+
+        function order(){
+        var token = $("meta[name='_csrf']").attr("content");    /*securiy + ajax 돈을 내라!!!*/
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        var url= "/order";
+        var paramData = {
+            itemId : $("#itemId").val(),
+            count : $("#count").val()
+        }
+
+        var param = JSON.stringify(paramData);
+
+        $.ajax({
+            url : url,
+            type : "POST",
+            contentType : "application/json",
+            data : param,   /* json형식을 보내겠다 */
+            beforeSend : function(xhr){
+                /* 데이터 전송하기 전에 헤더에 csrf 값을 설정 */
+                xhr.setRequestHeader(header, token);
+            },
+            dataType : "json",
+            cache : false,
+            success : function(result, status){ /* 백엔드에서 성공하면 여기로 옵니다. (orderId,HttpStatus.OK) */
+                /* alert(result);
+                alert(status); */
+                alert("주문이 완료 되었습니다.");
+                location.href='/';
+            },
+            error : function(jqXHR, status, error){ /* 백엔드에서 실패하면 여기로 옵니다. */
+                if(jqXHR.status == '401'){
+                    alert('로그인 후 이용해 주세요.');
+                    location.href='/member/login';
+                }else{
+                    alert(jqXHR.responseText);
+                }
+            }
+        });
+    }
+
+    function addCart(){
+        var token = $("meta[name='_csrf']").attr("content");    /*securiy + ajax 돈을 내라!!!*/
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        var url = "/cart";
+        var paramData = {
+            itemId : $("#itemId").val(),
+            count : $("#count").val()
+        };
+
+        var param = JSON.stringify(paramData);
+
+        $.ajax({
+            url : url,
+            type : "POST",
+            contentType : "application/json",
+            data : param,   /* json형식을 보내겠다 */
+            beforeSend : function(xhr){
+                /* 데이터 전송하기 전에 헤더에 csrf 값을 설정 */
+                xhr.setRequestHeader(header, token);
+            },
+            dataType : "json",
+            cache : false,
+            success : function(result, status){ /* 백엔드에서 성공하면 여기로 옵니다. (orderId,HttpStatus.OK) */
+                /* alert(result);
+                alert(status); */
+                alert("상품을 장바구니에 담겼습니다.");
+                location.href='/';
+            },
+            error : function(jqXHR, status, error){ /* 백엔드에서 실패하면 여기로 옵니다. */
+                if(jqXHR.status == '401'){
+                    alert('로그인 후 이용해 주세요.');
+                    location.href='/member/login';
+                }else{
+                    alert(jqXHR.responseText);
+                }
+            }
+        });
+    }
+    </script>
+</th:block>
+
+<!-- 사용자 css 추가 -->
+<th:block layout:fragment="css">
+    <style>
+        .mgb-15{
+            margin-bottom:15px;
+        }
+        .mgt-30{
+            margin-top:30px;
+        }
+        .mgt-50{
+            margin-top:50px;
+        }
+        .repImgDiv{
+            <!--margin-right:15px;-->
+            height:auto;
+            width:auto;
+        }
+        .repImg{
+            width:auto%;
+            height:auto;
+            <!--margin-right:15px;-->
+        }
+         .wd50{
+            height:auto;
+
+
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content" style="margin-top:70px;">
+    <input type="hidden" id="itemId" th:value="${item.id}"> <!-- 필요하지만 구지 보이지 않아도 되는것>>내려보내는것 -->
+    <div class="container_itemDtl" style="vertical-align:middle;">
+        <div class="d-flex flex-row ">
+            <!--왼쪽-->
+            <div style="width:auto;" >
+                <div style="margin-left : 70px;">
+                    <div class="repImgDiv">
+                        <img th:src="${item.itemImgDtoList[0].imgUrl}" class="repImg" width="800" th:alt="${item.itemNm}">  <!-- 대표 이미지출력 -->
+                    </div>
+                    <div class="jumbotron jumbotron-fluid mgt-30" style="white-space:normal;">
+                        <div class="container_itemDtl_jumbo">
+                            <h4 class="display-5">상품 상세 설명</h4>
+                            <hr class="my-4">
+                            <p class="lead" th:text="${item.itemDetail}"></p>   <!-- 상품상태 글  @Lob-->
+                        </div>
+                    </div>
+                    <div th:each="itemImg : ${item.itemImgDtoList}" class="text-center">    <!-- <img> itemImgDtoList -->
+                        <img th:if="${not #strings.isEmpty(itemImg.imgUrl)}" th:src="${itemImg.imgUrl}" class="mgb-15" width="800">
+                        <!-- strings 비어있지 않아야 ok tiemImg.imgUrl 비어있지 않으면 이미지가 출력  -->
+                    </div>
+                </div>
+            </div>
+
+            <!--오른쪽-->
+            <div style="width:auto;"> <!--style="position:fixed;"-->
+                <div class="wd50" style="float:left; position:fixed;margin-left : 30px;">
+            <span th:if="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}"
+                  class="badge badge-light mgb-15" style="font-size: 13px; margin-left:12px;">판매중</span>
+                    <span th:unless="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}"
+                          class="badge badge-dark mgb-15" style="font-size: 13px; margin-left:12px;">품절</span>
+
+                    <div class="text-right" style="margin-top:85px;">
+                        <div class="text-left" style="margin-left:15px;">
+                            <span th:text="${item.itemNm}" style="font-size : 15px;"></span><br/>
+                            <input type="hidden" th:value="${item.price}" id="price" name="price">
+                            <span th:text="${item.price}"></span>원&nbsp;&nbsp;
+                            <br/><br/><br/>
+                            <div class="input-group w-50">
+                                <input type="number" name="count" id="count" class="form-control input-sm" value="1" min="1" style="font-size: 12px;">&nbsp;&nbsp;<!-- 수량증가 -->
+                                <h6 name="totalPrice" id="totalPrice" class="font-weight-semibold" style="margin-top : 5px;"></h6><!-- 위 함수 실행 후 totalPrice가 들어온다. -->
+                            </div>
+                        </div><br/>
+                    </div>
+<!--                    담기 주문 버튼 -->
+                    <div th:if="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}" class="text-right"> <!-- SELL인 경우에 장바구니 담기 /주문하기 -->
+                        <button type="button" class="btn btn-outline-dark btn-sm" onclick="addCart()">   <!-- javaScript addCart() -->
+                            <img src="/images/img/cart.png" height="20px" style="align-items: center;"></button>
+                        <button type="button" class="btn btn-dark btn-sm" onclick="order()">주문하기</button>    <!-- javascript order() -->
+                    </div>
+                    <div th:unless="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}" class="text-right">
+                        <button type="button" class="btn btn-danger">품절</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</html>

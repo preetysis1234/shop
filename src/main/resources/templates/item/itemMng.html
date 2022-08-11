@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function(){
+            $("searchBtn").on("click",function(e){
+                e.preventDefault(); //검색버튼 클릭시 form 태그 전송을 막습니다. >> 다른 버튼을 다 막는다 .로딩중 다른 버튼 다 캔슬
+                page(0);    //항상 첫번째 페이지가 나오게 한다 .
+            });
+        });
+
+        function page(page){
+            var searchDateType = $("#searchDateType").val();
+            var searchSellStatus = $("#searchSellStatus").val();
+            var searchCategory = $("#searchCategory").val();
+            var searchBy = $("#searchBy").val();
+            var searchQuery = $("#searchQuery").val();
+
+
+            location.href="/admin/items/" + page + "?searchDateType=" + searchDateType
+            + "&searchSellStatus=" + searchSellStatus + "&searchCategory=" +searchCategory
+            + "&searchBy=" + searchBy
+            + "&searchQuery=" + searchQuery;    //컨트롤로 이동한다.  itemSearchDto가 받는다.
+        }
+    </script>
+</th:block>
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+    <style>
+        select{
+            margin-right : 10px;
+
+        }
+
+        .form-control{
+            font-size : 12px;
+        }
+
+        .page-link {
+          color: #999;
+          background-color: #000;
+          border-color: #444;
+        }
+
+        .page-item.active .page-link {
+         z-index: 1;
+         color: #ccc;
+         font-weight:bold;
+         background-color: #333;
+          border-color: #444;
+        }
+
+        .page-link:focus, .page-link:hover {
+          color: #ccc;
+          background-color: #222;
+          border-color: #444;
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+    <div class="container_itemMng">
+    <form th:action="@{'/admin/items/'+${items.number}}" role="form" method="get" th:object="${items}">
+        <!-- 아이템의 세부사항으로 들어간다. form>>양식을 보내는 아이  -->
+        <p class="h5" style="margin-bottom:17px; margin-left:3px;">상품 관리</p>
+        <table class="table" style="font-size : 12px; text-align : center;">
+            <thead>
+            <tr>
+                <td>상품아이디</td>
+                <td>상품명</td>
+                <td>판매상태</td>
+                <td>카테고리</td>
+                <td>등록자</td>
+                <td>등록일</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item, status : ${items.getContent()}"> <!-- each : 반복문 , 표현될 실직적인 리스트 -->
+                <td th:text="${item.id}"></td>
+                <td>
+                    <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemNm}"></a>
+                </td>
+                <td th:text="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL} ? '판매중' : '품절'"></td><!--T : 비교 -->
+
+                <td th:if="${item.itemCategory == T(com.shop.constant.ItemCategory).TOP}">Top</td>
+                <td th:if="${item.itemCategory == T(com.shop.constant.ItemCategory).BOTTOM}">Bottom</td>
+                <td th:if="${item.itemCategory == T(com.shop.constant.ItemCategory).DRESS}">Dress</td>
+                <td th:if="${item.itemCategory == T(com.shop.constant.ItemCategory).ACCESSORY}">Accessory</td>
+
+                <td th:text="${item.createdBy}"></td>
+                <td th:text="${item.regTime}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <br/>
+        <div style="font-size : 10px;">
+        <div th:with="start=${(items.number/maxPage)*maxPage +1},
+        end=(${(items.totalPages == 0) ? 1 : (start + (maxPage-1) < items.totalPages ? start + (maxPage - 1) : items.totalPages)})">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${items.first}?'disabled'">   <!-- 첫번쨰야? 그럼 비활성화ㄱㄱ -->
+                    <a th:onclick="'javascript:page('+${items.number - 1} + ')'" aria-label='Previous' class="page-link">
+                        <span aria-hidden="true"><<</span>
+                    </a>
+                </li>
+                <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${items.number eq page-1}?'active':''">
+                    <a th:onclick="'javascript:page('+${page -1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                </li>
+                <li class="page-item" th:classappend="${items.last}?'disabled'">
+                    <a th:onclick="'javascript:page(' + ${items.number + 1} + ')'" aria-label="Next" class="page-link">
+                        <span aria-hidden="true">>></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        </div> <!--font위한 추가 div-->
+        <br/>
+        <div class="form-inline justify-content-center" th:object="${itemSearchDto}">
+            <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
+                <option value="all">전체기간</option>
+                <option value="1d">1일</option>
+                <option value="1w">1주</option>
+                <option value="1m">1개월</option>
+                <option value="6m">6개월</option>
+            </select>
+            <select th:field="*{searchSellStatus}" class="form-control" style="width:auto;">
+                <option value="">판매상태(전체)</option>
+                <option value="SELL">판매</option>
+                <option value="SOLD_OUT">품절</option>
+            </select>
+            <select th:field="*{searchCategory}" class="form-control" style="width:auto;">
+                <option value="">전체종류</option>
+                <option value="TOP">Top</option>
+                <option value="BOTTOM">Bottom</option>
+                <option value="DRESS">Dress</option>
+                <option value="ACCESSORY">Accessory</option>
+            </select>
+            <select th:field="*{searchBy}" class="form-control" style="width:auto;">
+                <option value="itemNm">상품명</option>
+                <option value="createdBy">등록자</option>
+            </select>
+            <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요" style="font-size : 12px">&nbsp;
+            <button id="searchBtn" type="submit" class="btn btn-outline-dark btn-sm"><img src="/images/img/glasses.png" height="18px"></button>
+        </div>
+    </form>
+    </div> <!--container_itemMng-->
+</div>
+</html>

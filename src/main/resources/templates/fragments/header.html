@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+
+
+<div th:fragment="header">
+  <nav class="navbar navbar-expand-sm navbar-light" style="background-color: white;">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarTogglerDemo03"
+            aria-controls="navbarTogglerDemo03"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+
+    <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarTogglerDemo03">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="width : 305px;">
+        <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+            <a class="nav-link" href="/admin/item/new" style="font-weight: bold; margin : 0px;font-size : 12px;">상품 등록</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+          <a class="nav-link" href="/admin/items" style="font-weight: bold; margin : 0px;font-size : 12px;">상품 관리</a>
+        </li>
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <a class="nav-link" href="/cart" style="font-weight: bold; margin : 0px;font-size : 12px;">장바구니</a>
+        </li>
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <a class="nav-link" href="/orders" style="font-weight: bold; margin : 0px;font-size : 12px;">구매이력</a>
+        </li>
+      </ul>
+          <a class="navbar-brand" href="/" ><img src="/images/img/logo.jpg"  height="25px;"></a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="width : 275px; justify-content:flex-end;">
+        <li class="nav-item" sec:authorize="isAnonymous()">
+          <a class="nav-link" href="/members/login" style="font-weight: bold; margin : 0px;font-size : 12px;">로그인</a>
+        </li>
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <a class="nav-link" href="/members/logout" style="font-weight: bold; margin : 0px;font-size : 12px;">로그아웃</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+</html>

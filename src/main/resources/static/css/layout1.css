@@ -1,0 +1,86 @@
+html{
+    position:relative;
+    min-height:100%;
+    margin : 0;
+    overflow-x:hidden;
+    overflow-y:scroll;
+    font-family:'helvetica neue','Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+
+}
+body{
+    min-height : 100%;
+}
+
+.footer{
+    background-color : white;
+    color : black;
+    position : absolute;
+    left : 0;
+    right : 0;
+    bottom : 0;
+    width : 100%;
+    padding : 15px 0;
+    text-align : center;
+}
+.content{
+
+    margin-bottom: 100px;
+    /*margin-top : 50px;*/
+   /* margin-left:100px;
+    margin-right : 100px;*/
+
+}
+
+.container{
+       margin-top : 100px;
+       height: 100%;
+       width : 350px;
+       justify-content: center;
+       align-items: center;
+       text-align : center;
+}
+
+.container_member{
+    margin-top :80px;
+    height: 100%;
+    display : flex;
+    justify-content:center;
+    align-items: center;
+    text-align : center;
+
+}
+.container_itemForm{
+    margin-top :70px;
+    height: 100%;
+    display : flex;
+    justify-content:center;
+    align-items: center;
+}
+
+.container_itemMng{
+    margin-top :70px;
+    height: 100%;
+    display : flex;
+    justify-content:center;
+    align-items: center;
+
+}
+
+.container_itemDtl{
+    height: 100%;
+    margin-left:100px;
+    vertical-align : middle;
+    display:flex;
+}
+
+
+.container_itemDtl_jumbo{
+     /*margin-top : 100px;*/
+     height: 100%;
+     width :auto;
+     justify-content: center;
+     align-items: center;
+     text-align : center;
+}
+
+
