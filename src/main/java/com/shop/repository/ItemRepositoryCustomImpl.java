@@ -130,9 +130,9 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{  //클래
     }
 
 
-    //추가 항목
+    //추가 항목 >> ItemCategory
     @Override
-    public Page<MainItemDto> getCateItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+    public Page<MainItemDto> getCateItemBottomPage(ItemSearchDto itemSearchDto, Pageable pageable){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
         itemSearchDto.setSearchCategory(ItemCategory.BOTTOM);
@@ -149,6 +149,65 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{  //클래
         long total = results.getTotal();
         return new PageImpl<>(content, pageable,total);
     }
+
+    @Override
+    public Page<MainItemDto> getCateItemTopPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+        itemSearchDto.setSearchCategory(ItemCategory.TOP);
+
+        //QMainItemDto @QueryProjection을 하용하면 DTO로 바로 조회 가능
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm,
+                        item.itemDetail,itemImg.imgUrl,item.price))
+                // join 내부조인 .repImgYn.eq("Y") 대표이미지만 가져온다.
+                //select 는 list로 봐야한다.
+                .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
+                .where(searchCategoryEq(itemSearchDto.getSearchCategory()))
+                .orderBy(item.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
+        List<MainItemDto> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content, pageable,total);
+    }
+
+    @Override
+    public Page<MainItemDto> getCateItemDressPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+        itemSearchDto.setSearchCategory(ItemCategory.DRESS);
+
+        //QMainItemDto @QueryProjection을 하용하면 DTO로 바로 조회 가능
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm,
+                        item.itemDetail,itemImg.imgUrl,item.price))
+                // join 내부조인 .repImgYn.eq("Y") 대표이미지만 가져온다.
+                //select 는 list로 봐야한다.
+                .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
+                .where(searchCategoryEq(itemSearchDto.getSearchCategory()))
+                .orderBy(item.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
+        List<MainItemDto> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content, pageable,total);
+    }
+
+    @Override
+    public Page<MainItemDto> getCateItemAccessoryPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+        itemSearchDto.setSearchCategory(ItemCategory.ACCESSORY);
+
+        //QMainItemDto @QueryProjection을 하용하면 DTO로 바로 조회 가능
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm,
+                        item.itemDetail,itemImg.imgUrl,item.price))
+                // join 내부조인 .repImgYn.eq("Y") 대표이미지만 가져온다.
+                //select 는 list로 봐야한다.
+                .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
+                .where(searchCategoryEq(itemSearchDto.getSearchCategory()))
+                .orderBy(item.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
+        List<MainItemDto> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content, pageable,total);
+    }
+
+
 
 
 

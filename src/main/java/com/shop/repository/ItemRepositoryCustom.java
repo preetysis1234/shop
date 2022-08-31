@@ -14,6 +14,9 @@ public interface ItemRepositoryCustom {
 
     Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto,Pageable pageable);
 
-    Page<MainItemDto> getCateItemPage(ItemSearchDto itemSearchDto,Pageable pageable);
+    Page<MainItemDto> getCateItemBottomPage(ItemSearchDto itemSearchDto,Pageable pageable);
+    Page<MainItemDto> getCateItemTopPage(ItemSearchDto itemSearchDto,Pageable pageable);
+    Page<MainItemDto> getCateItemDressPage(ItemSearchDto itemSearchDto,Pageable pageable);
+    Page<MainItemDto> getCateItemAccessoryPage(ItemSearchDto itemSearchDto,Pageable pageable);
 
 }

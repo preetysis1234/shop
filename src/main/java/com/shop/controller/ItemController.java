@@ -121,19 +121,91 @@ public class ItemController {
 
 
 
-
+    /*itemCategory 나누는 부분*/
     @GetMapping(value = "/item/itemBottom")
-    public String itemCategory(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model){
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0 ,5);
+    public String itemCategoryBottom(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model){
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0 ,10);
         if(itemSearchDto.getSearchQuery() == null)
         {
             itemSearchDto.setSearchQuery("");
         }
-        Page<MainItemDto> items = itemService.getCateItemPage(itemSearchDto, pageable);
+        Page<MainItemDto> items = itemService.getCateItemBottomPage(itemSearchDto, pageable);
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
         model.addAttribute("maxPage",5);
         return "item/itemBottom";
     }
+
+    @GetMapping(value = "/item/itemTop")
+    public String itemCategoryTop(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model){
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0 ,10);
+        if(itemSearchDto.getSearchQuery() == null)
+        {
+            itemSearchDto.setSearchQuery("");
+        }
+        Page<MainItemDto> items = itemService.getCateItemTopPage(itemSearchDto, pageable);
+        model.addAttribute("items", items);
+        model.addAttribute("itemSearchDto", itemSearchDto);
+        model.addAttribute("maxPage",5);
+        return "item/itemTop";
+    }
+
+    @GetMapping(value = "/item/itemDress")
+    public String itemCategoryDress(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model){
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0 ,10);
+        if(itemSearchDto.getSearchQuery() == null)
+        {
+            itemSearchDto.setSearchQuery("");
+        }
+        Page<MainItemDto> items = itemService.getCateItemDressPage(itemSearchDto, pageable);
+        model.addAttribute("items", items);
+        model.addAttribute("itemSearchDto", itemSearchDto);
+        model.addAttribute("maxPage",5);
+        return "item/itemDress";
+    }
+
+    @GetMapping(value = "/item/itemAccessory")
+    public String itemCategoryAccessory(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model){
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0 ,10);
+        if(itemSearchDto.getSearchQuery() == null)
+        {
+            itemSearchDto.setSearchQuery("");
+        }
+        Page<MainItemDto> items = itemService.getCateItemAccessoryPage(itemSearchDto, pageable);
+        model.addAttribute("items", items);
+        model.addAttribute("itemSearchDto", itemSearchDto);
+        model.addAttribute("maxPage",5);
+        return "item/itemAccessory";
+    }
+
+    @GetMapping(value = "/item/itemAll")
+    public String itemCategoryAll(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model){
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0 ,10);
+        if(itemSearchDto.getSearchQuery() == null)
+        {
+            itemSearchDto.setSearchQuery("");
+        }
+        Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
+        model.addAttribute("items", items);
+        model.addAttribute("itemSearchDto", itemSearchDto);
+        model.addAttribute("maxPage",5);
+        return "item/itemAll";
+    }
+
+    @GetMapping(value = "/item/itemSearchResult")
+    public String itemSearchResult(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model){
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0 ,10);
+        if(itemSearchDto.getSearchQuery() == null)
+        {
+            itemSearchDto.setSearchQuery("");
+        }
+        Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
+        model.addAttribute("items", items);
+        model.addAttribute("itemSearchDto", itemSearchDto);
+        model.addAttribute("maxPage",5);
+        return "item/itemSearchResult";
+    }
+
+
 
 }

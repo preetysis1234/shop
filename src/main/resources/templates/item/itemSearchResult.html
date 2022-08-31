@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<th:block layout:fragment="css">
+  <style>
+        .page-link {
+          color: #999;
+          background-color: #000;
+          border-color: #444;
+        }
+
+        .page-item.active .page-link {
+         z-index: 1;
+         color: #ccc;
+         font-weight:bold;
+         background-color: #333;
+          border-color: #444;
+        }
+
+        .page-link:focus, .page-link:hover {
+          color: #ccc;
+          background-color: #222;
+          border-color: #444;
+        }
+
+
+        .fs13{
+          font-size : 13px;
+        }
+        .card-text{
+            text-overflow : ellipsis;
+            white-space : nowrap;
+            overflow : hidden;
+        }
+        .card{
+            justify-content: center;
+            align-items: center;
+            text-align : left;
+            border : 0px;
+        }
+        .card-body{
+            padding-left : 0px;
+            padding-top : 10px;
+        }
+
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+
+  <!--검색폼-->
+  <div class="w-100 row justify-content-center" >
+      <div class="d-flex flex-column-center" style="margin-top:100px; margin-left:70px;">
+        <div>
+          <form class="form-inline my-2 my-lg-0" th:action="@{/item/itemSearchResult}" method="get"
+                style="width:395px; height:auto;justify-content: center;align-items: center;" >
+            <input name="searchQuery" class="form-control me-2 " type="search" style="font-size:12px;width:300px;" placeholder="검색어를 입력해 주세요" aria-label="Search">&nbsp;
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><img src="/images/img/glasses.png" height="20px;"></button>  <!-- search를하면 maincontroller로 간다. -->
+          </form>
+          <hr/>
+        </div>
+      </div>
+  </div>
+  <!--검색결과>> 쿼리가 null이 아니면 값을 불러오고 null이면 검색결과가 없음을 출력한다. -->
+  <div>
+    <div style="margin-top:50px;">
+      <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
+      <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
+        <p class="font-weight-bold" th:text="${itemSearchDto.searchQuery} + '&nbsp;검색결과'" style="margin-left:45px;margin-top:10px;font-size:13px;"></p><br/><br/>
+
+          <div class="d-flex flex-row justify-content-start">
+            <th:block th:each="item, status: ${items.getContent()}">
+              <div class="col-md-6-margin" style="margin-left : 45px; margin-top : 30px;">
+                <div class="card" style="width:250px;">
+                  <a th:href="'/item/' + ${item.id}" class="text-dark">
+                    <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="400">
+                    <div class="card-body" style="margin-left : 0px;">
+                      <span class="card-title" style="font-size : 11px;">[[${item.itemNm}]]</span><br/>
+                      <span class="card-title" style="font-size : 11px;">[[${item.price}]]원</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </th:block>
+          </div>
+        <!-- Page 설정-->
+        <div style="font-size : 10px">
+          <div th:with="start=${(items.number/maxPage)*maxPage +1},
+        end=(${(items.totalPages == 0) ? 1 : (start + (maxPage-1) < items.totalPages ?
+        start + (maxPage - 1) : items.totalPages)})">
+            <ul class="pagination justify-content-center" style="border : 0px;">
+              <li class="page-item" th:classappend="${items.number eq 0}?'disabled'">
+                <a th:href="@{'/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}"
+                   aria-label='Previous' class="page-link">
+                  <span aria-hidden="true"><<</span>
+                </a>
+              </li>
+              <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"
+                  th:classappend="${items.number eq page-1}?'active':''">
+                <a th:href="@{'/item/itemSearchResult'+ '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page-1}}"
+                   th:inline="text" class="page-link">[[${page}]]</a>
+              </li>
+              <li class="page-item" th:classappend="${items.number+1 ge items.totalPages}?'disabled'">
+                <a th:href="@{'/item/itemSearchResult' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number + 1}}"
+                   aria-label="Next" class="page-link" >
+                  <span aria-hidden="true">>></span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+      <!--null값인 경우  -->
+    <div th:unless="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
+      <div class="w-100 row justify-content-center">
+        <div class="d-flex flex-column-center" style="margin-left:35px;">
+          <p class="fs13 font-weight-normal" th:text="검색결과없음"></p><br/><br/>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+ <br/>
+
+
+
+
+
+</div>
+</html>

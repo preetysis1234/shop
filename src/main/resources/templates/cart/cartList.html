@@ -161,10 +161,10 @@
 <th:block layout:fragment="css">
     <style>
         .content-mg{
-            margin-left:30%;
-            margin-right:30%;
-            margin-top:2%;
+            margin-left:25%;
+            margin-right:25%;
             margin-bottom:100px;
+            font-size:13px;
         }
         .repImgDiv{
             margin-right:15px;
@@ -172,8 +172,8 @@
             height:auto;
         }
         .repImg{
-            height:100px;
-            width:100px;
+            height:150px;
+            width:150px;
         }
         .card{
             width:750px;
@@ -192,8 +192,9 @@
 </th:block>
 
 <div layout:fragment="content" class="content-mg">
-    <h2 class="mb-4">장바구니 목록</h2>
-    <div>
+    <div class="container_cartList">
+        <h5 class="mb-4">장바구니 목록</h5>
+        <div>
         <table class="table">
             <colgroup>
                 <col width="15%">
@@ -203,7 +204,9 @@
             <thead>
             <tr class="text-center">
                 <td>
-                    <input type="checkbox" id="checkall" onclick="checkAll()">전체선택
+                    <span style="align-items: center;">
+                        <input type="checkbox" id="checkall" onclick="checkAll()" style="align-items:center;">전체선택
+                    </span>
                 </td>
                 <td>상품정보</td>
                 <td>상품금액</td>
@@ -216,13 +219,13 @@
                 </td>
                 <td class="d-flex">
                     <div class="repImgDiv align-self-center">
-                        <img th:src="${cartItem.imgUrl}" class="rounded repImg" th:alt="${cartItem.itemNm}">
+                        <img th:src="${cartItem.imgUrl}" class="repImg" th:alt="${cartItem.itemNm}">
                     </div>
                     <div class="align-self-center">
-                        <span th:text="${cartItem.itemNm}" class="f24 font-weight-bold"></span>
-                        <div class="fs18 font-weight-light">
-                            <span th:text="${cartItem.itemNm}" class="f24 font-weight-bold"></span>
-                            <div class="fs18 font-weight-light">
+                        <span th:text="${cartItem.itemNm}" class=" font-weight-bold"></span>
+                        <div>
+                            <!--<span th:text="${cartItem.itemNm}" class=" font-weight-bold"></span>-->
+                            <div>
                                 <span class="input-group mt-2">
                                     <span th:id="'price_' + ${cartItem.cartItemId}" th:data-price="${cartItem.price}"
                                           th:text="${cartItem.price} + '원'" class="align-self-center mr-2">
@@ -231,10 +234,10 @@
                                            th:value="${cartItem.count}" min="1" onchange="changeCount(this)">
                                     <button type="button" class="close" aria-label="Close">
                                         <span aria-hidden="true" th:data-id="${cartItem.cartItemId}"
-                                              onclick="deleteCartItem(this)">&times;</span>
+                                              onclick="deleteCartItem(this)" style="margin-left:10px;align-items: center;">&times;</span>
                                     </button>
                                 </span>
-
+                            </div>
                         </div>
                     </div>
                 </td>
@@ -245,12 +248,14 @@
             </tr>
             </tbody>
         </table>
-
-        <h2 class="text-center">
+        </div>
+        <div>
+        <h6 class="text-center font-weight-semibold">
             총 주문 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
-        </h2>
+        </h6>
+        </div>
         <div class="text-center mt-3">
-            <button type="button" class="btn btn-primary btn-lg" onclick="orders()">주문하기</button>
+            <button type="button" class="btn btn-dark btn-sm" onclick="orders()" style="font-size:12px;margin-top:15px;">주문하기</button>
         </div>
     </div>
 </div>

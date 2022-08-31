@@ -53,16 +53,9 @@
 <div layout:fragment="content">
     <div class="w-100 row justify-content-center">
         <div class="d-flex flex-column-center" style="margin-top:100px; margin-left:40px;margin-bottom:70px;">
-            <span style="font-size:17px;">팬츠</span>
+            <span style="font-size:17px;">탑</span>
         </div>
     </div>
-
-
-    <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
-    <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
-        <p class="h6 font-weight-bold" th:text="${itemSearchDto.searchQuery} + '검색결과'"></p><br/><br/>
-    </div>
-
     <div class="row">
         <th:block th:each="item, status: ${items.getContent()}">
             <div class="col-md-6-margin" style="margin-left : 45px; margin-top : 30px;">
@@ -86,18 +79,18 @@
         start + (maxPage - 1) : items.totalPages)})">
             <ul class="pagination justify-content-center" style="border : 0px;">
                 <li class="page-item" th:classappend="${items.number eq 0}?'disabled'">
-                    <a th:href="@{'/item/itemBottom' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}"
+                    <a th:href="@{'/item/itemTop' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}"
                        aria-label='Previous' class="page-link">
                         <span aria-hidden="true"><<</span>
                     </a>
                 </li>
                 <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"
                     th:classappend="${items.number eq page-1}?'active':''">
-                    <a th:href="@{'/item/itemBottom'+ '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page-1}}"
+                    <a th:href="@{'/item/itemTop'+ '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page-1}}"
                        th:inline="text" class="page-link">[[${page}]]</a>
                 </li>
                 <li class="page-item" th:classappend="${items.number+1 ge items.totalPages}?'disabled'">
-                    <a th:href="@{'/item/itemBottom' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number + 1}}"
+                    <a th:href="@{'/item/itemTop' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number + 1}}"
                        aria-label="Next" class="page-link" >
                         <span aria-hidden="true">>></span>
                     </a>

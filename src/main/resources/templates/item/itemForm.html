@@ -37,7 +37,7 @@
 <th:block layout:fragment="css">
     <style>
         .input-group{
-            margin-bottom : 15px;
+            <!--margin-bottom : 15px;-->
         }
         .img-div{
             margin-bottom : 10px;
@@ -88,21 +88,21 @@
             </div>
             <input type="text" th:field="*{itemNm}" class="form-control" placeholder="상품명을 입력해주세요.">
         </div>
-        <p th:if="${#fields.hasErrors('itemNm')}" th:errors="*{itemNm}" class="fieldError">Incorrect data</p>
+        <p th:if="${#fields.hasErrors('itemNm')}" th:errors="*{itemNm}" class="fieldError" style="margin-top:5px;">Incorrect data</p>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text">가격</span>
             </div>
             <input type="number" th:field="*{price}" class="form-control" placeholder="상품의 가격을 입력해주세요.">
         </div>
-        <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="fieldError">Incorrect data</p>
+        <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="fieldError" style="margin-top:5px;">Incorrect data</p>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text" style="font-size : 12px;">재고</span>
             </div>
             <input type="number" th:field="*{stockNumber}" class="form-control" placeholder="상품의 재고를 입력해주세요.">
         </div>
-        <p th:if="${#fields.hasErrors('stockNumber')}" th:errors="*{stockNumber}" class="fieldError">Incorrect data</p>
+        <p th:if="${#fields.hasErrors('stockNumber')}" th:errors="*{stockNumber}" class="fieldError" style="margin-top:5px;">Incorrect data</p>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text">상품 상세 내용</span>
@@ -111,7 +111,7 @@
 
            <textarea class="form-control" aria-label="With textarea" th:field="*{itemDetail}"></textarea>
         </div>
-        <p th:if="${#fields.hasErrors('itemDetail')}" th:errors="*{itemDetail}" class="fieldError">Incorrect data</p>
+        <p th:if="${#fields.hasErrors('itemDetail')}" th:errors="*{itemDetail}" class="fieldError" style="margin-top:5px;">Incorrect data</p>
 
         <div th:if="${#lists.isEmpty(itemFormDto.itemImgDtoList)}" style="margin-top : 30px;" >
             <div class="form-group" th:each="num: ${#numbers.sequence(1,5)}" >

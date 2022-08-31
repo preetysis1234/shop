@@ -29,9 +29,9 @@
     </script>
 </th:block>
 
-<div layout:fragment="content">
+<div layout:fragment="content" style="font-size:12px;">
     <div class="container_member">
-    <form action="/members/new" role="form" method="post" th:object="${memberFormDto}" style="width:600px; align-items: center;">
+    <form action="/members/new" role="form" method="post" th:object="${memberFormDto}" style="width:500px; align-items: center;">
         <h6>Create An Account</h6><br/>
         <div class="form-group">
             <input type="text" th:field="*{name}" class="form-control" placeholder="이름">

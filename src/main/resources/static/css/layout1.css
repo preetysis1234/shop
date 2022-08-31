@@ -4,8 +4,8 @@ html{
     margin : 0;
     overflow-x:hidden;
     overflow-y:scroll;
-    font-family:'helvetica neue','Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
-
+    /*font-family: 'Nanum Gothic',sans-serif;
+*/
 }
 body{
     min-height : 100%;
@@ -24,7 +24,7 @@ body{
 }
 .content{
 
-    margin-bottom: 100px;
+    margin-bottom: 300px;
     /*margin-top : 50px;*/
    /* margin-left:100px;
     margin-right : 100px;*/
@@ -50,6 +50,7 @@ body{
 
 }
 .container_itemForm{
+    font-size:12px;
     margin-top :70px;
     height: 100%;
     display : flex;
@@ -63,8 +64,31 @@ body{
     display : flex;
     justify-content:center;
     align-items: center;
+}
+
+.container_cartList{
+    margin-top :70px;
+    height: 100%;
+    width : 100%;
+    /*display : flex;*/
+    justify-content:center;
+    align-items: center;
+    font-size:13px;
 
 }
+
+.container_orderHist{
+    margin-top :70px;
+    height: 100%;
+    /*display : flex;*/
+    justify-content:center;
+    align-items: center;
+    font-size:13px;
+
+
+}
+
+
 
 .container_itemDtl{
     height: 100%;
@@ -83,4 +107,17 @@ body{
      text-align : center;
 }
 
+.dropdown-toggle::after {
+    display:none;
+}
+
+.dropdown-item{
+    margin:0px;
+    font-size:12px;
+}
+.dropdown-item:hover{
+    margin:0px;
+    font-size:12px;
+    background:none;
+}
 

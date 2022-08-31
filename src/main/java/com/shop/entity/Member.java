@@ -44,7 +44,7 @@ public class Member extends BaseEntity{
         String password = passwordEncoder.encode(memberFormDto.getPassword());  //암호화 >>Bean객체를 많들어서 객체 선언 안해도 됨
         member.setPassword(password);
         member.setPhone(memberFormDto.getPhone());
-        member.setRole(Role.ADMIN);
+        member.setRole(Role.USER);
         return member;
     }
 }

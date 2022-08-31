@@ -139,7 +139,7 @@
     </style>
 </th:block>
 
-<div layout:fragment="content" style="margin-top:70px;">
+<div layout:fragment="content" style="margin-top:0px;">
     <input type="hidden" id="itemId" th:value="${item.id}"> <!-- 필요하지만 구지 보이지 않아도 되는것>>내려보내는것 -->
     <div class="container_itemDtl" style="vertical-align:middle;">
         <div class="d-flex flex-row ">
@@ -149,9 +149,9 @@
                     <div class="repImgDiv">
                         <img th:src="${item.itemImgDtoList[0].imgUrl}" class="repImg" width="800" th:alt="${item.itemNm}">  <!-- 대표 이미지출력 -->
                     </div>
-                    <div class="jumbotron jumbotron-fluid mgt-30" style="white-space:normal;">
+                    <div class="jumbotron jumbotron-fluid mgt-30" style="white-space:normal; background-color:white;">
                         <div class="container_itemDtl_jumbo">
-                            <h4 class="display-5">상품 상세 설명</h4>
+                            <h6 class="display-5">상세설명</h6>
                             <hr class="my-4">
                             <p class="lead" th:text="${item.itemDetail}"></p>   <!-- 상품상태 글  @Lob-->
                         </div>
@@ -164,33 +164,34 @@
             </div>
 
             <!--오른쪽-->
-            <div style="width:auto;"> <!--style="position:fixed;"-->
-                <div class="wd50" style="float:left; position:fixed;margin-left : 30px;">
+            <div style="width:auto;margin-top:70px;"> <!--style="position:fixed;"-->
+                <div class="wd50" style="float:left; position:fixed;margin-left : 60px;">
             <span th:if="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}"
                   class="badge badge-light mgb-15" style="font-size: 13px; margin-left:12px;">판매중</span>
                     <span th:unless="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}"
                           class="badge badge-dark mgb-15" style="font-size: 13px; margin-left:12px;">품절</span>
 
-                    <div class="text-right" style="margin-top:85px;">
+                    <div class="text-right" style="margin-top:50px;">
                         <div class="text-left" style="margin-left:15px;">
                             <span th:text="${item.itemNm}" style="font-size : 15px;"></span><br/>
                             <input type="hidden" th:value="${item.price}" id="price" name="price">
-                            <span th:text="${item.price}"></span>원&nbsp;&nbsp;
+                            <span th:text="${item.price}" style="font-size : 13px;"></span>
+                            <span style="font-size:13px;">원&nbsp;&nbsp;</span>
                             <br/><br/><br/>
-                            <div class="input-group w-50">
-                                <input type="number" name="count" id="count" class="form-control input-sm" value="1" min="1" style="font-size: 12px;">&nbsp;&nbsp;<!-- 수량증가 -->
-                                <h6 name="totalPrice" id="totalPrice" class="font-weight-semibold" style="margin-top : 5px;"></h6><!-- 위 함수 실행 후 totalPrice가 들어온다. -->
+                            <div class="input-group">
+                                <input type="number" name="count" id="count" class="form-control input-sm" value="1" min="1" style="font-size: 12px; display:block;">&nbsp;&nbsp;<!-- 수량증가 -->
+                                <h6 name="totalPrice" id="totalPrice" class="font-weight-semibold" style="margin-top : 5px;margin-left:20px;"></h6><!-- 위 함수 실행 후 totalPrice가 들어온다. -->
                             </div>
                         </div><br/>
                     </div>
 <!--                    담기 주문 버튼 -->
-                    <div th:if="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}" class="text-right"> <!-- SELL인 경우에 장바구니 담기 /주문하기 -->
+                    <div th:if="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}" class="text-right"style="margin-top:30px;"> <!-- SELL인 경우에 장바구니 담기 /주문하기 -->
                         <button type="button" class="btn btn-outline-dark btn-sm" onclick="addCart()">   <!-- javaScript addCart() -->
                             <img src="/images/img/cart.png" height="20px" style="align-items: center;"></button>
                         <button type="button" class="btn btn-dark btn-sm" onclick="order()">주문하기</button>    <!-- javascript order() -->
                     </div>
                     <div th:unless="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}" class="text-right">
-                        <button type="button" class="btn btn-danger">품절</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" style="margin-top:30px;">품절</button>
                     </div>
                 </div>
 

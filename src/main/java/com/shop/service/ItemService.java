@@ -84,9 +84,28 @@ public class ItemService {
         //itemRepository는 custom의 자식이기 때문에 getMainItemPage가 사용이 가능하다.
     }
 
+    /*itemCategory*/
     @Transactional(readOnly = true)
-    public Page<MainItemDto> getCateItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
-        return itemRepository.getCateItemPage(itemSearchDto,pageable);
+    public Page<MainItemDto> getCateItemBottomPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        return itemRepository.getCateItemBottomPage(itemSearchDto,pageable);
+        //itemRepository는 custom의 자식이기 때문에 getMainItemPage가 사용이 가능하다.
+    }
+
+    @Transactional(readOnly = true)
+    public Page<MainItemDto> getCateItemTopPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        return itemRepository.getCateItemTopPage(itemSearchDto,pageable);
+        //itemRepository는 custom의 자식이기 때문에 getMainItemPage가 사용이 가능하다.
+    }
+
+    @Transactional(readOnly = true)
+    public Page<MainItemDto> getCateItemDressPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        return itemRepository.getCateItemDressPage(itemSearchDto,pageable);
+        //itemRepository는 custom의 자식이기 때문에 getMainItemPage가 사용이 가능하다.
+    }
+
+    @Transactional(readOnly = true)
+    public Page<MainItemDto> getCateItemAccessoryPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        return itemRepository.getCateItemAccessoryPage(itemSearchDto,pageable);
         //itemRepository는 custom의 자식이기 때문에 getMainItemPage가 사용이 가능하다.
     }
 
